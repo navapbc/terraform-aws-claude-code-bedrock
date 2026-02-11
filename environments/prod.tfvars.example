@@ -1,0 +1,105 @@
+################################################################################
+# General
+################################################################################
+
+aws_region   = "us-east-1"
+project_name = "claude-code"
+
+tags = {
+  ManagedBy   = "terraform"
+  Project     = "claude-code-bedrock"
+  Environment = "production"
+  Owner       = "platform-team"
+}
+
+################################################################################
+# Foundation
+################################################################################
+
+# IAM principals allowed to assume the developer role.
+# Replace with your federated IdP ARNs or IAM user/role ARNs.
+developer_trusted_arns = [
+  "arn:aws:iam::123456789012:root",
+]
+
+# IAM principals allowed to assume the admin role.
+admin_trusted_arns = [
+  "arn:aws:iam::123456789012:role/PlatformAdmin",
+]
+
+# Bedrock model ARNs developers can invoke.
+allowed_model_arns = [
+  "arn:aws:bedrock:*::foundation-model/anthropic.claude-opus-4-6-v1",
+]
+
+################################################################################
+# Logging
+################################################################################
+
+# Must be globally unique. Use your org name as prefix.
+s3_bucket_prefix = "acme-corp"
+
+log_retention_days              = 30
+s3_lifecycle_expiration_days    = 365
+s3_lifecycle_ia_transition_days = 90
+
+################################################################################
+# Allocation (Inference Profiles)
+################################################################################
+
+# Per-user inference profiles for individual cost tracking in Cost Explorer.
+# Each developer sets CLAUDE_CODE_BEDROCK_PROFILE_ARN to their profile ARN.
+#
+# model_arn must be a system-defined cross-region inference profile ARN, not a
+# foundation model ARN, since newer models only support cross-region inference.
+# Find available profiles with:
+#   aws bedrock list-inference-profiles --query "inferenceProfileSummaries[?type=='SYSTEM_DEFINED']"
+inference_profiles = {
+  developer1 = {
+    model_arn   = "arn:aws:bedrock:us-east-1:ACCOUNT_ID:inference-profile/us.anthropic.claude-opus-4-6-v1"
+    description = "Developer 1"
+    team_tag    = "engineering"
+    project_tag = "claude-code"
+    cost_center = "CC-1001"
+    user_tag    = "developer1"
+  }
+  developer2 = {
+    model_arn   = "arn:aws:bedrock:us-east-1:ACCOUNT_ID:inference-profile/us.anthropic.claude-opus-4-6-v1"
+    description = "Developer 2"
+    team_tag    = "engineering"
+    project_tag = "claude-code"
+    cost_center = "CC-1001"
+    user_tag    = "developer2"
+  }
+}
+
+################################################################################
+# Attribution (SSO + Athena)
+################################################################################
+
+enable_sso       = false
+sso_instance_arn = "" # e.g. "arn:aws:sso:::instance/ssoins-1234567890abcdef"
+
+input_price_per_m  = 15.0
+output_price_per_m = 75.0
+
+################################################################################
+# Budgets & Alerting
+################################################################################
+
+monthly_budget_amount = 5000
+
+budget_alert_emails = [
+  "platform-team@example.com",
+  "finance@example.com",
+]
+
+enable_team_budgets = true
+
+team_budgets = {
+  engineering = { amount = 5000, cost_center = "CC-1001" }
+}
+
+# Guardrails (optional)
+enable_guardrails        = false
+guardrail_blocked_topics = []

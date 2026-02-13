@@ -15,6 +15,23 @@ resource "aws_ssoadmin_permission_set" "developer" {
   }
 }
 
+# To programmatically assign an Azure AD / Entra ID group to the permission set,
+# uncomment the resource below. You'll need the group's principal ID from IAM
+# Identity Center (synced from your IdP via SCIM).
+#
+# resource "aws_ssoadmin_account_assignment" "developer_group" {
+#   count = var.enable_sso ? 1 : 0
+#
+#   instance_arn       = var.sso_instance_arn
+#   permission_set_arn = aws_ssoadmin_permission_set.developer[0].arn
+#
+#   principal_id   = "YOUR_GROUP_PRINCIPAL_ID"  # From IAM Identity Center → Groups
+#   principal_type = "GROUP"
+#
+#   target_id   = data.aws_caller_identity.current.account_id
+#   target_type = "AWS_ACCOUNT"
+# }
+
 resource "aws_ssoadmin_permission_set_inline_policy" "developer" {
   count = var.enable_sso ? 1 : 0
 

@@ -156,6 +156,39 @@ For per-developer cost allocation via inference profiles, add the profile ARN:
 
 > **Warning**: Do NOT set `AWS_BEARER_TOKEN_BEDROCK` in your environment. This variable is not used by Claude Code and will cause authentication failures with Bedrock.
 
+### SSO Authentication (Optional)
+
+If your organization uses SSO via IAM Identity Center (e.g., Azure AD / Microsoft Entra ID), developers authenticate with their corporate identity instead of IAM access keys. This automatically provides per-developer attribution in Bedrock invocation logs.
+
+Set up the AWS CLI SSO profile:
+
+```bash
+aws configure sso
+```
+
+This creates a named profile in `~/.aws/config`:
+
+```ini
+[profile claude-code]
+sso_session = claude-code
+sso_account_id = 123456789012
+sso_role_name = claude-code-developer
+region = us-east-1
+
+[sso-session claude-code]
+sso_start_url = https://d-1234567890.awsapps.com/start
+sso_region = us-east-1
+sso_registration_scopes = sso:account:access
+```
+
+Then reference this profile in `~/.claude/settings.json` as `AWS_PROFILE` and authenticate before using Claude Code:
+
+```bash
+aws sso login --profile claude-code
+```
+
+See [MANUAL_STEPS.md](MANUAL_STEPS.md) (Phase 4) for full SSO setup instructions, including Azure AD / Entra ID configuration.
+
 ## Querying Cost Data
 
 **CloudWatch Logs Insights** — Saved queries are created automatically. Open the CloudWatch console, go to Logs Insights, and select from the saved queries prefixed with your project name.

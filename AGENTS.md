@@ -50,7 +50,8 @@ The project is organized into five Terraform modules, deployed in phases:
 - Cost allocation tags: `Team`, `Project`, `CostCenter`, `User` (must be activated manually in AWS Billing)
 
 **Phase 4: `modules/attribution/`**
-- Optional SSO permission set for per-developer identity in logs
+- Optional SSO permission set for per-developer identity in logs (Azure AD / Entra ID preferred; Okta and Google Workspace also supported)
+- When SSO is enabled, each developer's federated identity is automatically captured in Bedrock invocation logs (`identity.arn`)
 - Athena workgroup + Glue catalog table for querying S3 invocation logs
 - Pre-built named queries for per-developer weekly/monthly cost breakdowns
 

@@ -77,9 +77,26 @@ inference_profiles = {
 # Attribution (SSO + Athena)
 ################################################################################
 
+# SSO provides per-developer federated identity in Bedrock invocation logs,
+# enabling automatic cost attribution without relying solely on inference profiles.
+#
+# Prerequisites:
+#   1. Enable IAM Identity Center in your AWS Organizations management account
+#   2. Connect your corporate IdP (Azure AD / Entra ID recommended, Okta and
+#      Google Workspace also supported) — see MANUAL_STEPS.md Phase 4
+#   3. Create a security group in your IdP for Claude Code developers
+#
+# After terraform apply, assign the developer group to the claude-code-developer
+# permission set in IAM Identity Center (see MANUAL_STEPS.md).
+
 enable_sso       = false
 sso_instance_arn = "" # e.g. "arn:aws:sso:::instance/ssoins-1234567890abcdef"
 
+# Uncomment to enable SSO:
+# enable_sso       = true
+# sso_instance_arn = "arn:aws:sso:::instance/ssoins-1234567890abcdef"
+
+# Token pricing for Athena cost estimation queries (Opus 4.6 pricing)
 input_price_per_m  = 15.0
 output_price_per_m = 75.0
 

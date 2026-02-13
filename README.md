@@ -89,7 +89,7 @@ IAM roles (`ClaudeCodeDeveloper`, `ClaudeCodeAdmin`) and an SCP policy document 
 Bedrock model invocation logging to CloudWatch Logs and S3. Includes saved Logs Insights queries for ad-hoc cost analysis (daily usage by caller, hourly totals, top consumers, model breakdown).
 
 ### `allocation`
-Application Inference Profiles per team/project with cost allocation tags (`Team`, `Project`, `CostCenter`). After tag activation, filtered cost data appears in AWS Cost Explorer.
+Per-developer Application Inference Profiles with cost allocation tags (`Team`, `Project`, `CostCenter`, `User`). After tag activation, filtered cost data appears in AWS Cost Explorer.
 
 ### `attribution`
 IAM Identity Center (SSO) permission set for per-developer identity in logs. Athena workgroup, Glue catalog table, and named queries for per-developer cost breakdowns.

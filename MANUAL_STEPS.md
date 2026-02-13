@@ -15,6 +15,8 @@ Complete these **before** running `terraform apply`.
   ```
   Create a new SCP in the Organizations console and attach it to the Claude Code account OU.
 
+> **Note**: Phase 2 (logging) is fully automated by Terraform — no manual steps required. CloudWatch Log Group, S3 bucket, and Bedrock logging configuration are all provisioned during `terraform apply`.
+
 ## Phase 3: Cost Allocation Tags (Post-Apply)
 
 Complete these **after** running `terraform apply`.

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Terraform project provisioning AWS infrastructure for Claude Code on Amazon Bedrock. Five-module phased architecture: IAM foundation, invocation logging, team-based cost allocation via inference profiles, per-developer attribution via SSO + Athena, and budget controls with alerting.
+Terraform project provisioning AWS infrastructure for Claude Code on Amazon Bedrock. Five-module phased architecture: IAM foundation, invocation logging, per-developer cost allocation via inference profiles, per-developer attribution via SSO + Athena, and budget controls with alerting.
 
 ## Module Dependency Graph
 

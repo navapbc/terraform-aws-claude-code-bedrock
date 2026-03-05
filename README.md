@@ -140,7 +140,7 @@ Each developer creates `~/.claude/settings.json`:
 }
 ```
 
-For per-developer cost allocation via inference profiles, add the profile ARN:
+Each developer has one inference profile per model (e.g., `billy-opus`, `billy-sonnet`). Set `CLAUDE_CODE_BEDROCK_PROFILE_ARN` to the profile that matches your `ANTHROPIC_MODEL`:
 
 ```json
 {
@@ -149,7 +149,21 @@ For per-developer cost allocation via inference profiles, add the profile ARN:
     "AWS_REGION": "us-east-1",
     "ANTHROPIC_MODEL": "us.anthropic.claude-opus-4-6-v1",
     "AWS_PROFILE": "claude-code",
-    "CLAUDE_CODE_BEDROCK_PROFILE_ARN": "<profile-arn-from-terraform-output>"
+    "CLAUDE_CODE_BEDROCK_PROFILE_ARN": "<your-opus-profile-arn>"
+  }
+}
+```
+
+To switch models, update both `ANTHROPIC_MODEL` and `CLAUDE_CODE_BEDROCK_PROFILE_ARN`:
+
+```json
+{
+  "env": {
+    "CLAUDE_CODE_USE_BEDROCK": "1",
+    "AWS_REGION": "us-east-1",
+    "ANTHROPIC_MODEL": "us.anthropic.claude-sonnet-4-6-v1",
+    "AWS_PROFILE": "claude-code",
+    "CLAUDE_CODE_BEDROCK_PROFILE_ARN": "<your-sonnet-profile-arn>"
   }
 }
 ```
@@ -209,11 +223,12 @@ See [MANUAL_STEPS.md](MANUAL_STEPS.md) (Phase 4) for full SSO setup instructions
 
 | Model | Input (per 1M tokens) | Output (per 1M tokens) |
 |-------|----------------------|------------------------|
-| Claude Haiku 3.5 | $0.80 | $4.00 |
+| Claude Haiku 4.5 | $1.00 | $5.00 |
 | Claude Sonnet 4 | $3.00 | $15.00 |
 | Claude Sonnet 4.5 | $3.00 | $15.00 |
-| Claude Opus 4 | $15.00 | $75.00 |
-| Claude Opus 4.6 | $15.00 | $75.00 |
+| Claude Sonnet 4.6 | $3.00 | $15.00 |
+| Claude Opus 4.5 | $5.00 | $25.00 |
+| Claude Opus 4.6 | $5.00 | $25.00 |
 
 ## Manual Steps
 
